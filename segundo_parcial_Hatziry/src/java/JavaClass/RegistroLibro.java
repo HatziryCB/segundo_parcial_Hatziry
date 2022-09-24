@@ -66,7 +66,7 @@ public class RegistroLibro {
     }
 
     public void getClientes2(StringBuffer respuesta) {
-        String sql = "select * from universidad.cliente";
+        String sql = "select * from biblioteca.libro";
         try {
             iniciarConexion();
             respuesta.setLength(0);
@@ -76,14 +76,13 @@ public class RegistroLibro {
                 while (result.next()) {
                     respuesta.append("<tr>");
                     //nombre de los encabezados en las columnas del query en mySQL Workbench, deben estar todos en el mismo orden
-                    respuesta.append("<td >").append(result.getString("nombre")).append("</td>");
-                    respuesta.append("<td >").append(result.getString("apellido")).append("</td>");
                     respuesta.append("<td >").append(result.getString("codigo")).append("</td>");
-                    respuesta.append("<td >").append(result.getString("telefono")).append("</td>");
-                    respuesta.append("<td >").append(result.getString("correo")).append("</td>");
-                    respuesta.append("<td >").append(result.getString("ciudad")).append("</td>");
+                    respuesta.append("<td >").append(result.getString("nombre_libro")).append("</td>");
+                    respuesta.append("<td >").append(result.getString("tipo_de_pasta")).append("</td>");
+                    respuesta.append("<td >").append(result.getString("editorial")).append("</td>");
+                    respuesta.append("<td >").append(result.getString("anio_publicacion")).append("</td>");
                     respuesta.append("<td id=\"").append(result.getString("codigo"))
-                            .append("\"  onclick=\"eliminar3(this.id);\">")
+                            .append("\"  onclick=\"eliminar(this.id);\">")
                             .append(" <a class=\"btn btn-warning\"'><i class=\"bi bi-vector-pen\"></i>  </a>"
                                     + " <a class=\"btn btn-danger\"'> <i class=\"bi bi-trash3\"></i> </a>"
                                     + " <td></tr>");
@@ -96,8 +95,8 @@ public class RegistroLibro {
         }
     }
 
-    public String eliminarCliente(int carne) {
-        String sql = "DELETE FROM cliente WHERE codigo=" + carne;
+    public String eliminarLibro(int cdLibro) {
+        String sql = "DELETE FROM cliente WHERE codigo=" + cdLibro;
         try {
             iniciarConexion();
             statement = conexion.prepareStatement(sql);

@@ -43,7 +43,7 @@ public class NewServlet extends HttpServlet {
                 libros = new Libros(
                     Integer.parseInt(request.getParameter("codigo")),
                     request.getParameter("nombre"),
-                    request.getParameter("tapa"),
+                    request.getParameter("pasta"),
                     request.getParameter("editorial"),
                     request.getParameter("año"));
 
@@ -51,7 +51,7 @@ public class NewServlet extends HttpServlet {
 
             } else if (control.toUpperCase().equals("ELIMINAR")) {
                 int codigoEliminar = Integer.parseInt(request.getParameter("codigo_libro"));//Nombre de encabezado de tabla Mysql con not null
-                registroLibro.eliminarCliente(codigoEliminar);
+                registroLibro.eliminarLibro(codigoEliminar);
             }
 
             registroLibro.getClientes2(objetoRespuesta);//consultar registro cliente en el BD

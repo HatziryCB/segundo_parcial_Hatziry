@@ -35,7 +35,7 @@ function cleanForm() {
     document.getElementById("año").value = '';
 }
 
-function eliminar3(codigo) {
+function eliminar(codigo) {
     const XHR = new XMLHttpRequest();
     var formData = new URLSearchParams(new FormData());
 

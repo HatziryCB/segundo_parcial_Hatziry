@@ -77,9 +77,9 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                         </div>
                         <div class="form-group">
                             <label for="inputState">Tipo de pasta</label>
-                            <select id="pasta" class="form-control">
-                                <option selected>Tapa dura</option>
-                                <option>Tapa blanda</option>
+                            <select name="pasta" id="pasta" class="form-control">
+                                <option value="Tapa Dura" selected>Tapa dura</option>
+                                <option value="Tapa Blanda">Tapa blanda</option>
                             </select>
                         </div>
                         <div class="row">
@@ -94,6 +94,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                         </div>
                         <button type="button" onclick="enviarDatos()" class="btn btn-primary mx-2 my-4">Registrar</button>
                         <button type="reset" class="btn btn-warning mx-2 my-4">Vaciar</button>
+                    </div>
                 </form>
             </div>
             <div class="ml-4 my-5" style="width: 850px;" id="tablaContainer">
@@ -111,7 +112,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                     </tbody>
                 </table>
             </div> 
+
         </div>
-    </div>
-</body>
+    </body>
 </html>
