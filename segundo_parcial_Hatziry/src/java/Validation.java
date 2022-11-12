@@ -3,8 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
 
-import JavaClass.Libro;
-import JavaClass.RegistroLibro;
+import JavaClass.User;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -17,38 +16,34 @@ import jakarta.servlet.http.HttpServletResponse;
  *
  * @author Hatziry Chacón
  */
-@WebServlet(urlPatterns = {"/NewServlet"})
-public class NewServlet extends HttpServlet {
-    Libro libros;
-    RegistroLibro registroLibro;
-    Libro[] vector;
-    StringBuffer objetoRespuesta = new StringBuffer();
-    
+@WebServlet(urlPatterns = {"/Validation"})
+public class Validation extends HttpServlet {
+
+    User usuario;
+
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try ( PrintWriter respuesta = response.getWriter()) {
-             registroLibro = new RegistroLibro();
-            String control = request.getParameter("control");
-
-            if (control.toUpperCase().equals("GUARDAR")) {
-                libros = new Libro(
-                    Integer.parseInt(request.getParameter("codigo")),
-                    request.getParameter("nombre"),
-                    request.getParameter("pasta"),
-                    Integer.parseInt(request.getParameter("autor")),
-                    request.getParameter("editorial"),
-                    request.getParameter("año"));
-
-                registroLibro.guardarLibroBD(libros);//Almacenar en BD
-
-            } else if (control.toUpperCase().equals("ELIMINAR")) {
-                int codigoEliminar = Integer.parseInt(request.getParameter("codigo_libro"));//Nombre de encabezado de tabla Mysql con not null
-                registroLibro.eliminarLibro(codigoEliminar);
+        try ( PrintWriter out = response.getWriter()) {
+            usuario = new User();
+            String user = request.getParameter("user");
+            String pass = request.getParameter("pass");
+            if (user.equals("") || pass.equals("")) {
+                request.setAttribute("success", 0);
+                request.setAttribute("mensaje", "Campo usuario y contraseña son requeridos");
+                request.getRequestDispatcher("/index.jsp").forward(request, response);
             }
 
-            registroLibro.getClientes2(objetoRespuesta);//consultar registro cliente en el BD
-            respuesta.write(objetoRespuesta.toString());
+            String usuarioConsultado = usuario.validarUsuario(request.getParameter("user"), request.getParameter("pass"));
+            if (usuarioConsultado.equals(request.getParameter("user"))) {
+                request.getSession().setAttribute("user", request.getParameter("user"));
+                request.getSession().setAttribute("pass", request.getParameter("pass"));
+                response.sendRedirect(request.getContextPath() + "/UserController");
+            } else {
+                request.setAttribute("success", 0);
+                request.setAttribute("mensaje", "Usuario y/o contraseña no encontrado");
+                request.getRequestDispatcher("/index.jsp").forward(request, response);
+            }
         }
     }
 

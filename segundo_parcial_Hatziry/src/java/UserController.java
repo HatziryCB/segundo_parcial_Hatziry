@@ -3,8 +3,6 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
 
-import JavaClass.Libro;
-import JavaClass.RegistroLibro;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -17,38 +15,31 @@ import jakarta.servlet.http.HttpServletResponse;
  *
  * @author Hatziry Chacón
  */
-@WebServlet(urlPatterns = {"/NewServlet"})
-public class NewServlet extends HttpServlet {
-    Libro libros;
-    RegistroLibro registroLibro;
-    Libro[] vector;
-    StringBuffer objetoRespuesta = new StringBuffer();
-    
+@WebServlet(urlPatterns = {"/UserController"})
+public class UserController extends HttpServlet {
+
+    /**
+     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
+     * methods.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try ( PrintWriter respuesta = response.getWriter()) {
-             registroLibro = new RegistroLibro();
-            String control = request.getParameter("control");
-
-            if (control.toUpperCase().equals("GUARDAR")) {
-                libros = new Libro(
-                    Integer.parseInt(request.getParameter("codigo")),
-                    request.getParameter("nombre"),
-                    request.getParameter("pasta"),
-                    Integer.parseInt(request.getParameter("autor")),
-                    request.getParameter("editorial"),
-                    request.getParameter("año"));
-
-                registroLibro.guardarLibroBD(libros);//Almacenar en BD
-
-            } else if (control.toUpperCase().equals("ELIMINAR")) {
-                int codigoEliminar = Integer.parseInt(request.getParameter("codigo_libro"));//Nombre de encabezado de tabla Mysql con not null
-                registroLibro.eliminarLibro(codigoEliminar);
+        try ( PrintWriter out = response.getWriter()) {
+            if (request.getSession().getAttribute("user") == null) {
+                //response.sendRedirect(request.getContextPath()+"/index.jsp");
+                request.setAttribute("success", 0);
+                request.getRequestDispatcher("/index.jsp").forward(request, response);
+            } else {
+                request.setAttribute("UsuarioLogueado", request.getSession().getAttribute("user"));
+                request.getRequestDispatcher("home.jsp").forward(request, response);
             }
 
-            registroLibro.getClientes2(objetoRespuesta);//consultar registro cliente en el BD
-            respuesta.write(objetoRespuesta.toString());
         }
     }
 

@@ -1,8 +1,11 @@
+<%-- 
+    Document   : RegistroLibro
+    Created on : 11/11/2022, 13:30:37
+    Author     : Hatziry Chacón
+--%>
+
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<!--
-Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
-Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit this template
--->
 <html>
     <head>
         <title>Biblioteca</title>
@@ -13,7 +16,6 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct" crossorigin="anonymous"></script>
         <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         <script src="Js/JavaScript.js" type="text/javascript"></script>
-
         <style>
             *{
                 margin: 0;
@@ -21,7 +23,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
             }
             body{
                 min-height: 100vh;
-                background-image: url(https://w.wallhaven.cc/full/j3/wallhaven-j3m2ww.jpg);
+                background-image: url(https://images.wallpaperscraft.com/image/single/book_tulips_coffee_117577_3485x2614.jpg);
                 background-size: 100%;
                 background-position: center center;
                 background-attachment: fixed;
@@ -31,31 +33,32 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
         </style>
     </head>
     <body>
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <a class="navbar-brand" href="#">
                 <img src="https://icon-library.com/images/home-icon-png/home-icon-png-28.jpg" width="30" height="30" class="d-inline-block align-top" alt="">
-                Home
+                Libreria
             </a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-
-            <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
-                <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
                     <li class="nav-item active">
-                        <a class="nav-link" href="index.html">Registrarse <span class="sr-only">(current)</span></a>
+                        <a class="nav-link" href="home.jsp">Home <span class="sr-only">(current)</span></a>
                     </li>
                     <li class="nav-item active">
-                        <a class="nav-link" >Tienda</a>
+                        <a class="nav-link" href="FormAutor.jsp">Registrar autor</a>
                     </li>
                     <li class="nav-item active">
-                        <a class="nav-link" >Contacto</a>
+                        <a class="nav-link" href="FormLibro.jsp">Registrar libro</a>
+                    </li>
+                    <li class="nav-item active">
+                        <a class="nav-link">Libros registrados</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="btn btn-outline-warning" href="Logout">Cerrar Sesion - ${UsuarioLogueado}</a>
                     </li>
                 </ul>
-                <form class="form-inline my-2 my-lg-0">
-                    <input class="form-control mr-sm-2" type="search" placeholder="Search">
-                    <button class="btn btn-outline-warning my-2 my-sm-0" type="submit">Buscar</button>
-                </form>
             </div>
         </nav>
         <div class="d-flex justify-content-around mx-4 my-5">
@@ -63,8 +66,8 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                 <form method="POST" id="form" name="form" action="NewServlet">
                     <div class="mt-3 mb-5 mx-4">
                         <img src="https://cdn-icons-png.flaticon.com/512/2521/2521826.png" class="rounded mx-auto d-block" width="100" alt="...">
-                        <h2 class="display-4 text-center my-4">  REGISTRO DE LIBROS</h2>
-                        <div class="row">
+                        <h2 class="display-4 text-center my-4">  REGISTRO DE LIBRO</h2>
+                        <div class="row my-3">
                             <div class="col">
                                 <label for="codigo">Código</label>
                                 <input type="int" class="form-control" placeholder="0123" name="codigo" id-="codigo">
@@ -75,14 +78,20 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                                 <input type="text" class="form-control" placeholder="Ejem. El principito" name="nombre" id="nombre">
                             </div>
                         </div>
-                        <div class="form-group">
-                            <label for="inputState">Tipo de pasta</label>
-                            <select name="pasta" id="pasta" class="form-control">
-                                <option value="Tapa Dura" selected>Tapa dura</option>
-                                <option value="Tapa Blanda">Tapa blanda</option>
-                            </select>
+                        <div class="row my-3">
+                            <div class="col">
+                                <label for="inputState">Tipo de pasta</label>
+                                <select name="pasta" id="pasta" class="form-control">
+                                    <option value="Tapa Dura" selected>Tapa dura</option>
+                                    <option value="Tapa Blanda">Tapa blanda</option>
+                                </select>
+                            </div>
+                            <div class="col">
+                                <label for="editorial">Código de Autor</label>
+                                <input type="text" class="form-control" placeholder="Ejem. 249481" name="autor" id="autor">
+                            </div>
                         </div>
-                        <div class="row">
+                        <div class="row my-3">
                             <div class="col">
                                 <label for="editorial">Editorial</label>
                                 <input type="text" class="form-control" placeholder="Ejem. Alfaguara" name="editorial" id="editorial">

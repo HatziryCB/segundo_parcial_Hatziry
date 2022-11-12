@@ -14,47 +14,44 @@ import java.sql.SQLException;
  *
  * @author Hatziry Chacón
  */
-public class RegistroLibro {
-
-    Libro[] vectorLibros;
+public class RegistroAutor {
+    Autor[] vectorAutor;
     int indice;
     private ConexionBaseDeDatos conectorBD;
     private Connection conexion;
     private PreparedStatement statement = null;
     private ResultSet result = null;
 
-    public RegistroLibro() {
-        this.vectorLibros = new Libro[100];
+    public RegistroAutor() {
+        this.vectorAutor = new Autor[100];
         this.indice = 0;
     }
-
-    public void almacenar(Libro libro) {
-        this.vectorLibros[indice] = libro;
-        this.indice = indice + 1;
+    
+    public void almacenar(Autor autor){
+        this.vectorAutor[indice]=autor;
+        this.indice=indice+1;
     }
-
-    public Libro[] mostrar() {
-        return this.vectorLibros;
+    
+    public Autor[] mostrar(){
+        return this.vectorAutor;
     }
-
     public void iniciarConexion() {
         conectorBD = new ConexionBaseDeDatos();
         conexion = conectorBD.conectar();
     }
 
-    public String guardarLibroBD(Libro libros) {
-        String sql = "INSERT INTO biblioteca.libro(codigo, nombre_libro, tipo_de_pasta, editorial, anio_publicacion, codigo_autor)";
-        sql += "VALUES (?,?,?,?,?,?)";
+    public String guardarLibroBD(Autor autor) {
+        String sql = "INSERT INTO biblioteca.autor(codigo, nombre, genero, origen, fecha)";
+        sql += "VALUES (?,?,?,?,?)";
 
         try {
             iniciarConexion();
             statement = conexion.prepareStatement(sql);
-            statement.setInt(1, libros.getCodigo());
-            statement.setString(2, libros.getNombre());
-            statement.setString(3, libros.getTapa());
-            statement.setString(4, libros.getEditorial());
-            statement.setString(5, libros.getAño());
-            statement.setInt(6, libros.getAutor());
+            statement.setInt(1, autor.getCodigo());
+            statement.setString(2, autor.getNombre());
+            statement.setString(3, autor.getGenero());
+            statement.setString(4, autor.getOrigen());
+            statement.setString(5, autor.getFecha());
             int resultado = statement.executeUpdate();
             // podemos colocar en vez de resultado el llamado de la función 
             // prstmt.executeUpdate() => if(prstmt.executeUpdate() > 0)
@@ -69,7 +66,7 @@ public class RegistroLibro {
     }
 
     public void getClientes2(StringBuffer respuesta) {
-        String sql = "select * from biblioteca.libro";
+        String sql = "select * from biblioteca.autor";
         try {
             iniciarConexion();
             respuesta.setLength(0);
@@ -80,10 +77,10 @@ public class RegistroLibro {
                     respuesta.append("<tr>");
                     //nombre de los encabezados en las columnas del query en mySQL Workbench, deben estar todos en el mismo orden
                     respuesta.append("<td >").append(result.getString("codigo")).append("</td>");
-                    respuesta.append("<td >").append(result.getString("nombre_libro")).append("</td>");
-                    respuesta.append("<td >").append(result.getString("tipo_de_pasta")).append("</td>");
-                    respuesta.append("<td >").append(result.getString("editorial")).append("</td>");
-                    respuesta.append("<td >").append(result.getString("anio_publicacion")).append("</td>");
+                    respuesta.append("<td >").append(result.getString("nombre")).append("</td>");
+                    respuesta.append("<td >").append(result.getString("genero")).append("</td>");
+                    respuesta.append("<td >").append(result.getString("origen")).append("</td>");
+                    respuesta.append("<td >").append(result.getString("fecha")).append("</td>");
                     respuesta.append("<td id=\"").append(result.getString("codigo"))
                             .append("\"  onclick=\"eliminar(this.id);\">")
                             .append(" <a class=\"btn-group btn-group-md btn-warning\"'><i class=\"bi bi-vector-pen\"></i>  </a>"
@@ -98,8 +95,8 @@ public class RegistroLibro {
         }
     }
 
-    public String eliminarLibro(int cdLibro) {
-        String sql = "DELETE FROM libro WHERE codigo=" + cdLibro;
+    public String eliminarLibro(int cdAutor) {
+        String sql = "DELETE FROM autor WHERE codigo=" + cdAutor;
         try {
             iniciarConexion();
             statement = conexion.prepareStatement(sql);

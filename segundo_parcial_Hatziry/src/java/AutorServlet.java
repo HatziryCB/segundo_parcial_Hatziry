@@ -3,7 +3,9 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
 
+import JavaClass.Autor;
 import JavaClass.Libro;
+import JavaClass.RegistroAutor;
 import JavaClass.RegistroLibro;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -17,38 +19,38 @@ import jakarta.servlet.http.HttpServletResponse;
  *
  * @author Hatziry Chacón
  */
-@WebServlet(urlPatterns = {"/NewServlet"})
-public class NewServlet extends HttpServlet {
-    Libro libros;
-    RegistroLibro registroLibro;
-    Libro[] vector;
+@WebServlet(urlPatterns = {"/AutorServlet"})
+public class AutorServlet extends HttpServlet {
+    Autor autor;
+    RegistroAutor registroAutor;
     StringBuffer objetoRespuesta = new StringBuffer();
     
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try ( PrintWriter respuesta = response.getWriter()) {
-             registroLibro = new RegistroLibro();
+        try ( PrintWriter out = response.getWriter()) {
+            try ( PrintWriter respuesta = response.getWriter()) {
+             registroAutor = new RegistroAutor();
             String control = request.getParameter("control");
 
             if (control.toUpperCase().equals("GUARDAR")) {
-                libros = new Libro(
+                autor = new Autor(
                     Integer.parseInt(request.getParameter("codigo")),
                     request.getParameter("nombre"),
-                    request.getParameter("pasta"),
-                    Integer.parseInt(request.getParameter("autor")),
-                    request.getParameter("editorial"),
-                    request.getParameter("año"));
+                    request.getParameter("genero"),
+                    request.getParameter("origen"),
+                    request.getParameter("fecha"));
 
-                registroLibro.guardarLibroBD(libros);//Almacenar en BD
+                registroAutor.guardarLibroBD(autor);//Almacenar en BD
 
             } else if (control.toUpperCase().equals("ELIMINAR")) {
-                int codigoEliminar = Integer.parseInt(request.getParameter("codigo_libro"));//Nombre de encabezado de tabla Mysql con not null
-                registroLibro.eliminarLibro(codigoEliminar);
+                int codigoEliminar = Integer.parseInt(request.getParameter("codigo_autor"));//Nombre de encabezado de tabla Mysql con not null
+                registroAutor.eliminarLibro(codigoEliminar);
             }
 
-            registroLibro.getClientes2(objetoRespuesta);//consultar registro cliente en el BD
+            registroAutor.getClientes2(objetoRespuesta);//consultar registro cliente en el BD
             respuesta.write(objetoRespuesta.toString());
+        }
         }
     }
 

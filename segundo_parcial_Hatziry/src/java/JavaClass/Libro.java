@@ -8,18 +8,20 @@ package JavaClass;
  *
  * @author Hatziry Chacón
  */
-public class Libros {
+public class Libro {
 
     private int codigo;
     private String nombre;
     private String tapa;
+    private int autor;
     private String editorial;
     private String año;
 
-    public Libros(int codigo, String nombre, String tapa, String editorial, String año) {
+    public Libro(int codigo, String nombre, String tapa, int autor, String editorial, String año) {
         this.codigo = codigo;
         this.nombre = nombre;
         this.tapa = tapa;
+        this.autor = autor;
         this.editorial = editorial;
         this.año = año;
     }
@@ -63,5 +65,15 @@ public class Libros {
     public void setAño(String año) {
         this.año = año;
     }
+
+    public int getAutor() {
+        return autor;
+    }
+
+    public void setAutor(int autor) {
+        this.autor = autor;
+    }
+
+    
 
 }
